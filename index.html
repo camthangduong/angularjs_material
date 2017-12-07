@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html ng-app="ReportMini" ng-controller="reportMiniCtrl">
+    <head>
+        <meta charset="utf8">
+        <meta http-equiv="">
+        <!-- Style -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <style>
+            .btn-size {
+                width : 120px;
+            }
+        </style>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+    <div>
+        <div id="nav">
+            <button id="AllEle" class="btn btn-primary btn-size" ng-click='navClickEventHandler("All", 0)'>All</button>
+            <button id="BalanceEle" class="btn btn-info btn-size" ng-click='navClickEventHandler("Balance", 1)'>Balance</button>
+            <button id="RiskEle" class="btn btn-info btn-size" ng-click='navClickEventHandler("Risk", 2)'>Risk</button>
+            <button id="RRPTEle" class="btn btn-info btn-size" ng-click='navClickEventHandler("RRPT", 3)'>Reportable Item</button>
+        </div>
+        <br />
+        <!-- Section Balance table -->
+        <div id="balanceSection" ng-show="showBalance">
+            <h4><span class="label label-default">Balance summary</span></h4>
+            <table class="table table-bordered table-condensed">
+                <thead>
+                    <tr>
+                        <th class="info"></th>
+                        <th class="info">Current Balance</th>
+                        <th class="info">Prior Balance</th>
+                        <th class="active"></th>
+                        <th class="active">Preliminary Material</th>
+                        <th class="active">Final Material</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="info">Planning</td>
+                        <td>$195,821</td>
+                        <td></td>
+                        <td class="active">Overall</td>
+                        <td>$10,000</td>
+                        <td>$10,000</td>
+                    </tr>
+                    <tr>
+                        <td class="info">Final</td>
+                        <td>$195,821</td>
+                        <td>$175,450</td>
+                        <td class="active">Performance</td>
+                        <td>$7,000</td>
+                        <td>$7,000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Risk Section -->
+        <div id="riskSection"  ng-show="showRisk">
+            <h4><span class="label label-default">Risk summary</span></h4>
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th class="active">Risk Addressed</th>
+                        <th class="active">What can go wrong</th>
+                        <th class="active">Audit Response</th>
+                        <th class="active">Source/Reference</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ineffective leadership leading to poor management oversight</td>
+                        <td></td>
+                        <td>This is just a test for response<br />- 1. Significant estimates</td>
+                        <td>1.101</td>
+                    </tr>
+                    <tr>
+                        <td>Overdue receivables</td>
+                        <td>Unable to collect receivables which would have an impact on cash flow and profitability</td>
+                        <td>Audit answer<br />- 2. Analytical procedures</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Receipts not deposited</td>
+                        <td></td>
+                        <td>-3.a. Purchase authorization</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Reportable Item Section -->
+        <div id="rrptItemSection"  ng-show="showRrpt">
+            <h4><span class="label label-default">Reportable Item summary</span></h4>
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th class="active"Reportable Items></th>
+                        <th class="active">Source</th>
+                        <th class="active">Addresses</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Review administrative function</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Establish and maintain an organizational chart and job descriptions</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Establish a company code of conduct and mission statement</td>
+                        <td>-1. Significant estimates</td>
+                        <td>1.101</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Script Section -->
+    <script>
+        var app = angular.module("ReportMini", []);
+        app.controller("reportMiniCtrl", function ($scope) {
+            var aBtnEles = ["AllEle", "BalanceEle", "RiskEle", "RRPTEle"];
+
+            function toggleSelectClass (selectedIndex) {
+                for (var index = 0; index < aBtnEles.length; index++) {
+                    if (index === selectedIndex) {
+                        $("#" + aBtnEles[index]).removeClass("btn-info");
+                        $("#" + aBtnEles[index]).addClass("btn-primary");
+                    } else {
+                        $("#" + aBtnEles[index]).removeClass("btn-primary");
+                        $("#" + aBtnEles[index]).addClass("btn-info");
+                    }
+                }
+            }
+
+            $scope.showBalance = true;
+            $scope.showRisk = true;
+            $scope.showRrpt = true;
+
+            $scope.navClickEventHandler = function (targetValue, seletedIndex) {
+                switch (targetValue) {
+                    case "Balance" :
+                        $scope.showBalance = true;
+                        $scope.showRisk = false;
+                        $scope.showRrpt = false;
+                        break;
+                    case "Risk" :
+                        $scope.showBalance = false;
+                        $scope.showRisk = true;
+                        $scope.showRrpt = false;
+                        break;
+                    case "RRPT" :
+                        $scope.showBalance = false;
+                        $scope.showRisk = false;
+                        $scope.showRrpt = true;
+                        break;
+                    default :
+                        $scope.showBalance = true;
+                        $scope.showRisk = true;
+                        $scope.showRrpt = true;
+                        seletedIndex = 0;
+                        break;
+               }
+               toggleSelectClass (seletedIndex);
+           }; 
+        });
+    </script>
+    </body>
+</html>
